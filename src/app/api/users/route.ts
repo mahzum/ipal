@@ -14,9 +14,9 @@ export async function GET(request: NextRequest) {
     let query = `
       SELECT id, username, email, full_name, role, is_active, last_login, created_at, updated_at 
       FROM users 
-      WHERE username LIKE ? OR email LIKE ? OR full_name LIKE ?
+      WHERE username LIKE $1 OR email LIKE $2 OR full_name LIKE $3
       ORDER BY created_at DESC
-      LIMIT ? OFFSET ?
+      LIMIT $4 OFFSET $5
     `;
     
     const searchTerm = `%${search}%`;
@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     // Get total count for pagination
     const countQuery = `
       SELECT COUNT(*) as total FROM users 
-      WHERE username LIKE ? OR email LIKE ? OR full_name LIKE ?
+      WHERE username LIKE $1 OR email LIKE $2 OR full_name LIKE $3
     `;
     const countResult = await executeQuery(countQuery, [searchTerm, searchTerm, searchTerm]) as any[];
     const total = countResult[0].total;
@@ -58,7 +58,8 @@ export async function POST(request: NextRequest) {
     
     const query = `
       INSERT INTO users (username, email, password_hash, full_name, role, is_active)
-      VALUES (?, ?, ?, ?, ?, ?)
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING id
     `;
 
     const values = [
@@ -70,12 +71,12 @@ export async function POST(request: NextRequest) {
       body.is_active !== undefined ? body.is_active : true
     ];
 
-    const result = await executeQuery(query, values) as any;
+    const result = await executeQuery(query, values) as any[];
     
     return NextResponse.json({
       success: true,
       message: 'User created successfully',
-      data: { id: result.insertId, ...body, password_hash: undefined }
+      data: { id: result[0].id, ...body, password_hash: undefined }
     });
   } catch (error) {
     console.error('Error creating user:', error);

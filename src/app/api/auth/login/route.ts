@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get user from database
-    const query = 'SELECT * FROM users WHERE username = ? AND is_active = 1';
+    const query = 'SELECT * FROM users WHERE username = $1 AND is_active = 1';
     const users = await executeQuery(query, [username]) as any[];
 
     if (users.length === 0) {
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
 
     // Update last login
     await executeQuery(
-      'UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?',
+      'UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = $1',
       [user.id]
     );
 

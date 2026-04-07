@@ -12,9 +12,9 @@ export async function GET(request: NextRequest) {
 
     let query = `
       SELECT * FROM pengelolaan_air_limbah 
-      WHERE nama LIKE ? OR kelurahan_desa LIKE ? OR lembaga_pengelola LIKE ?
+      WHERE nama LIKE $1 OR kelurahan_desa LIKE $2 OR lembaga_pengelola LIKE $3
       ORDER BY created_at DESC
-      LIMIT ? OFFSET ?
+      LIMIT $4 OFFSET $5
     `;
     
     const searchTerm = `%${search}%`;
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     // Get total count for pagination
     const countQuery = `
       SELECT COUNT(*) as total FROM pengelolaan_air_limbah 
-      WHERE nama LIKE ? OR kelurahan_desa LIKE ? OR lembaga_pengelola LIKE ?
+      WHERE nama LIKE $1 OR kelurahan_desa LIKE $2 OR lembaga_pengelola LIKE $3
     `;
     const countResult = await executeQuery(countQuery, [searchTerm, searchTerm, searchTerm]) as any[];
     const total = countResult[0].total;
@@ -57,7 +57,8 @@ export async function POST(request: NextRequest) {
         tahun_dibangun_rehabilitasi, kondisi_status_operasional,
         lembaga_pengelola, pengecekan_effluent, latitude, longitude,
         alamat_lengkap, keterangan
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+      RETURNING id
     `;
 
     const values = [
@@ -75,12 +76,12 @@ export async function POST(request: NextRequest) {
       body.keterangan || null
     ];
 
-    const result = await executeQuery(query, values) as any;
+    const result = await executeQuery(query, values) as any[];
     
     return NextResponse.json({
       success: true,
       message: 'Facility created successfully',
-      data: { id: result.insertId, ...body }
+      data: { id: result[0].id, ...body }
     });
   } catch (error) {
     console.error('Error creating facility:', error);
