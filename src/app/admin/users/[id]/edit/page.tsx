@@ -71,7 +71,7 @@ export default function EditUserPage() {
 
     try {
       // Only include password in the request if it's not empty
-      const updateData = { ...formData };
+      const updateData: any = { ...formData };
       if (!updateData.password) {
         delete updateData.password;
       }

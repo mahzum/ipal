@@ -268,11 +268,15 @@ export default function FacilityDetailPage() {
             <div className="space-y-3">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Dibuat</label>
-                <p className="text-sm font-semibold text-gray-900">{new Date(facility.created_at).toLocaleDateString('id-ID')}</p>
+                <p className="text-sm font-semibold text-gray-900">
+                  {facility.created_at ? new Date(facility.created_at).toLocaleDateString('id-ID') : 'N/A'}
+                </p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Terakhir Diupdate</label>
-                <p className="text-sm font-semibold text-gray-900">{new Date(facility.updated_at).toLocaleDateString('id-ID')}</p>
+                <p className="text-sm font-semibold text-gray-900">
+                  {facility.updated_at ? new Date(facility.updated_at).toLocaleDateString('id-ID') : 'N/A'}
+                </p>
               </div>
             </div>
           </div>
