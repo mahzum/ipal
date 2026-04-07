@@ -1,26 +1,307 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --foreground: #000000;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #ffffff;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* RADICAL TEXT VISIBILITY FIXES */
+* {
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+/* Force all text to be black and bold for maximum visibility */
+h1, h2, h3, h4, h5, h6, p, span, div, label, input, select, textarea, button, a, td, th {
+  color: #000000 !important;
+  font-weight: 600 !important;
+  text-shadow: 0 0 1px rgba(0,0,0,0.1) !important;
+}
+
+/* Specific overrides for input fields */
+input, select, textarea {
+  background-color: #ffffff !important;
+  border: 2px solid #666666 !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+  padding: 12px 16px !important;
+  border-radius: 8px !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #333333 !important;
+  font-weight: 600 !important;
+  opacity: 1 !important;
+}
+
+/* Table text visibility */
+table th, table td {
+  color: #000000 !important;
+  font-weight: 700 !important;
+  text-shadow: none !important;
+}
+
+/* Button text visibility */
+button {
+  font-weight: 700 !important;
+}
+
+/* Link text visibility */
+a {
+  color: #000000 !important;
+  font-weight: 600 !important;
+}
+
+/* Status badges and colored text */
+.text-green-600, .text-red-600, .text-blue-600, .text-yellow-600 {
+  font-weight: 800 !important;
+  text-shadow: 0 0 2px rgba(255,255,255,0.8) !important;
+}
+
+/* Force white text on colored backgrounds */
+.bg-blue-600, .bg-green-600, .bg-red-600, .bg-yellow-600, .bg-purple-600 {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+/* Navigation and header text */
+nav, header {
+  color: #000000 !important;
+}
+
+nav a, header a, nav span, header span {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+/* Modal text visibility */
+.modal, .modal * {
+  color: #000000 !important;
+  font-weight: 600 !important;
+}
+
+/* Search and filter inputs */
+input[type="search"], input[type="text"] {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+  border: 3px solid #333333 !important;
+}
+
+/* Specific fixes for homepage elements */
+.text-gray-900, .text-gray-800, .text-gray-700, .text-gray-600, .text-gray-500 {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+/* Stats cards text */
+.text-2xl, .text-xl, .text-lg, .text-base, .text-sm, .text-xs {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+/* Login form specific fixes */
+.login-form label, .login-form input {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+/* Admin panel specific fixes */
+.admin-panel h1, .admin-panel h2, .admin-panel h3 {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+/* Sidebar text */
+.sidebar a, .sidebar span, .sidebar p {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+/* Card headers and content */
+.card-header, .card-content, .card-title {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+/* Map page specific fixes */
+.map-container h1, .map-container h2, .map-container p {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+/* Facility list specific fixes */
+.facility-name, .facility-location, .facility-capacity {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+/* Settings page input fixes */
+.settings-input, .settings-label {
+  color: #000000 !important;
+  font-weight: 700 !important;
+  background-color: #ffffff !important;
+}
+
+/* Pagination text */
+.pagination span, .pagination a {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+/* Footer text */
+footer p, footer span {
+  color: #000000 !important;
+  font-weight: 600 !important;
+}
+
+/* Force visibility for all possible text elements */
+.text-white {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+/* Ensure all form elements are visible */
+form label, form input, form select, form textarea, form button {
+  color: #000000 !important;
+  font-weight: 700 !important;
+  background-color: #ffffff !important;
+  border: 2px solid #333333 !important;
+}
+
+/* Status indicators with better contrast */
+.status-optimal, .status-good {
+  background-color: #16a34a !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+}
+
+.status-warning, .status-pending {
+  background-color: #eab308 !important;
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+.status-error, .status-bad {
+  background-color: #dc2626 !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+}
+
+/* NUCLEAR OPTION - Force all text to be visible */
+body * {
+  color: #000000 !important;
+  font-weight: 600 !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+/* Override for buttons and colored backgrounds */
+.bg-blue-500, .bg-blue-600, .bg-blue-700,
+.bg-green-500, .bg-green-600, .bg-green-700,
+.bg-red-500, .bg-red-600, .bg-red-700,
+.bg-yellow-500, .bg-yellow-600, .bg-yellow-700,
+.bg-purple-500, .bg-purple-600, .bg-purple-700,
+.bg-indigo-500, .bg-indigo-600, .bg-indigo-700 {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+.bg-blue-500 *, .bg-blue-600 *, .bg-blue-700 *,
+.bg-green-500 *, .bg-green-600 *, .bg-green-700 *,
+.bg-red-500 *, .bg-red-600 *, .bg-red-700 *,
+.bg-yellow-500 *, .bg-yellow-600 *, .bg-yellow-700 *,
+.bg-purple-500 *, .bg-purple-600 *, .bg-purple-700 *,
+.bg-indigo-500 *, .bg-indigo-600 *, .bg-indigo-700 * {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+/* Specific overrides for white/light backgrounds */
+.bg-white, .bg-gray-50, .bg-gray-100, .bg-blue-50, .bg-green-50 {
+  background-color: #ffffff !important;
+}
+
+.bg-white *, .bg-gray-50 *, .bg-gray-100 *, .bg-blue-50 *, .bg-green-50 * {
+  color: #000000 !important;
+  font-weight: 600 !important;
+}
+
+/* Table specific overrides */
+thead th, tbody td, tfoot td {
+  color: #000000 !important;
+  font-weight: 700 !important;
+  background-color: transparent !important;
+}
+
+/* Input and form overrides */
+input[type="text"], input[type="email"], input[type="password"], 
+input[type="number"], input[type="search"], select, textarea {
+  color: #000000 !important;
+  background-color: #ffffff !important;
+  font-weight: 700 !important;
+  border: 2px solid #333333 !important;
+  padding: 8px 12px !important;
+}
+
+/* Placeholder text */
+::placeholder {
+  color: #666666 !important;
+  font-weight: 600 !important;
+  opacity: 1 !important;
+}
+
+/* Link overrides */
+a:not(.bg-blue-600):not(.bg-green-600):not(.bg-red-600) {
+  color: #000000 !important;
+  font-weight: 600 !important;
+}
+
+/* Header and navigation overrides */
+header *, nav * {
+  color: #000000 !important;
+  font-weight: 600 !important;
+}
+
+/* Sidebar overrides for dark backgrounds */
+.bg-gray-800 *, .bg-gray-900 *, .bg-slate-800 *, .bg-slate-900 * {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+/* Modal overrides */
+.fixed.inset-0 *, .modal *, .dialog * {
+  color: #000000 !important;
+  font-weight: 600 !important;
+}
+
+/* Card and panel overrides */
+.rounded-lg *, .shadow *, .border * {
+  color: #000000 !important;
+  font-weight: 600 !important;
+}
+
+/* Ensure stats and numbers are visible */
+.text-2xl, .text-xl, .text-lg {
+  color: #000000 !important;
+  font-weight: 800 !important;
+  font-size: inherit !important;
 }
