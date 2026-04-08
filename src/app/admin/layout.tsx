@@ -73,20 +73,20 @@ export default function AdminLayout({
   ];
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-gray-50">
       {/* Sidebar */}
-      <aside className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
+      <aside className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-slate-100 border-r border-slate-200 duration-300 ease-linear lg:static lg:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
         {/* Sidebar Header */}
         <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
           <Link href="/admin" className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600">
               <Droplets className="h-5 w-5 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-white">SI-PAL</h1>
-              <p className="text-xs text-gray-400">Admin Dashboard</p>
+              <h1 className="text-xl font-bold text-gray-900">SI-PAL</h1>
+              <p className="text-xs text-gray-500">Admin Dashboard</p>
             </div>
           </Link>
           
@@ -94,7 +94,7 @@ export default function AdminLayout({
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="block lg:hidden"
           >
-            <X className="h-6 w-6 text-white" />
+            <X className="h-6 w-6 text-gray-600" />
           </button>
         </div>
 
@@ -102,7 +102,7 @@ export default function AdminLayout({
         <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
           <nav className="mt-5 py-4 px-4 lg:mt-9 lg:px-6">
             <div>
-              <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">MENU</h3>
+              <h3 className="mb-4 ml-4 text-sm font-semibold text-slate-600 uppercase tracking-wider">MENU</h3>
               <ul className="mb-6 flex flex-col gap-1.5">
                 {menuItems.map((item) => {
                   const Icon = item.icon;
@@ -112,8 +112,8 @@ export default function AdminLayout({
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          isActive ? 'bg-graydark dark:bg-meta-4' : ''
+                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-slate-700 duration-300 ease-in-out hover:bg-slate-200 ${
+                          isActive ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-700' : ''
                         }`}
                       >
                         <Icon className="h-5 w-5" />
@@ -126,12 +126,12 @@ export default function AdminLayout({
             </div>
 
             <div>
-              <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">OTHERS</h3>
+              <h3 className="mb-4 ml-4 text-sm font-semibold text-slate-600 uppercase tracking-wider">OTHERS</h3>
               <ul className="mb-6 flex flex-col gap-1.5">
                 <li>
                   <button 
                     onClick={handleLogout}
-                    className="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 w-full text-left"
+                    className="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-slate-700 duration-300 ease-in-out hover:bg-slate-200 w-full text-left"
                   >
                     <LogOut className="h-5 w-5" />
                     Logout
@@ -146,19 +146,19 @@ export default function AdminLayout({
       {/* Content Area */}
       <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
         {/* Header */}
-        <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
+        <header className="sticky top-0 z-999 flex w-full bg-white border-b border-slate-200 drop-shadow-1">
           <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
             <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
-              <button
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="z-99999 block rounded-sm border border-stroke bg-white p-1.5 shadow-sm dark:border-strokedark dark:bg-boxdark lg:hidden"
-              >
+                <button
+                  onClick={() => setSidebarOpen(!sidebarOpen)}
+                  className="z-99999 block rounded-sm border border-gray-300 bg-white p-1.5 shadow-sm lg:hidden"
+                >
                 <Menu className="h-5.5 w-5.5" />
               </button>
             </div>
 
             <div className="hidden sm:block">
-              <h1 className="text-title-md2 font-semibold text-black dark:text-white">
+              <h1 className="text-title-md2 font-semibold text-gray-900">
                 Sistem Informasi Pengelolaan Air Limbah
               </h1>
             </div>
@@ -168,14 +168,14 @@ export default function AdminLayout({
               <div className="relative">
                 <div className="flex items-center gap-4">
                   <span className="hidden text-right lg:block">
-                    <span className="block text-sm font-medium text-black dark:text-white">
+                    <span className="block text-sm font-medium text-gray-900">
                       {user?.full_name || user?.username || 'Admin User'}
                     </span>
                     <span className="block text-xs">{user?.role || 'Administrator'}</span>
                   </span>
 
                   <span className="h-12 w-12 rounded-full">
-                    <div className="h-12 w-12 rounded-full bg-primary flex items-center justify-center text-white text-lg font-semibold">
+                    <div className="h-12 w-12 rounded-full bg-blue-600 flex items-center justify-center text-white text-lg font-semibold">
                       {(user?.full_name || user?.username || 'A').charAt(0).toUpperCase()}
                     </div>
                   </span>
@@ -186,7 +186,7 @@ export default function AdminLayout({
         </header>
 
         {/* Main Content */}
-        <main>
+        <main className="bg-gray-50">
           <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
             {children}
           </div>

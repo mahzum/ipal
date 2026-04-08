@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get user from database
-    const query = 'SELECT * FROM users WHERE username = $1 AND is_active = 1';
+    const query = 'SELECT * FROM users WHERE username = $1 AND is_active = true';
     const users = await executeQuery(query, [username]) as any[];
 
     if (users.length === 0) {

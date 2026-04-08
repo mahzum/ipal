@@ -23,20 +23,38 @@ export default function MapComponent({ facilities, onMarkerClick }: MapComponent
   useEffect(() => {
     // Load Leaflet CSS and JS dynamically
     const loadLeaflet = async () => {
-      if (typeof window !== 'undefined' && !window.L) {
-        // Load CSS
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
-        document.head.appendChild(link);
+      try {
+        if (typeof window !== 'undefined' && !window.L) {
+          // Load CSS
+          const link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+          document.head.appendChild(link);
 
-        // Load JS
-        const script = document.createElement('script');
-        script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-        script.onload = initializeMap;
-        document.head.appendChild(script);
-      } else if (window.L) {
-        initializeMap();
+          // Load JS
+          const script = document.createElement('script');
+          script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+          script.onload = initializeMap;
+          script.onerror = () => {
+            console.error('Failed to load Leaflet JS');
+            // Fallback: show error message
+            if (mapRef.current) {
+              mapRef.current.innerHTML = `
+                <div class="flex items-center justify-center h-full bg-gray-100">
+                  <div class="text-center">
+                    <p class="text-red-600 font-semibold mb-2">Gagal memuat peta</p>
+                    <p class="text-sm text-gray-600">Periksa koneksi internet Anda</p>
+                  </div>
+                </div>
+              `;
+            }
+          };
+          document.head.appendChild(script);
+        } else if (window.L) {
+          initializeMap();
+        }
+      } catch (error) {
+        console.error('Error loading Leaflet:', error);
       }
     };
 
@@ -82,6 +100,16 @@ export default function MapComponent({ facilities, onMarkerClick }: MapComponent
     // Add new markers
     facilities.forEach(facility => {
       if (facility.latitude && facility.longitude) {
+        // Convert string coordinates to numbers
+        const lat = parseFloat(facility.latitude.toString());
+        const lng = parseFloat(facility.longitude.toString());
+        
+        // Validate coordinates
+        if (isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+          console.warn('Invalid coordinates for facility:', facility.nama, { lat, lng });
+          return;
+        }
+        
         const getMarkerColor = (status: string) => {
           if (status.includes('Optimal')) {
             return 'green';
@@ -106,7 +134,7 @@ export default function MapComponent({ facilities, onMarkerClick }: MapComponent
           iconAnchor: [10, 10]
         });
 
-        const marker = window.L.marker([facility.latitude, facility.longitude], {
+        const marker = window.L.marker([lat, lng], {
           icon: customIcon
         }).addTo(mapInstanceRef.current);
 
@@ -154,7 +182,22 @@ export default function MapComponent({ facilities, onMarkerClick }: MapComponent
     // Fit map to show all markers if there are any
     if (markersRef.current.length > 0) {
       const group = new window.L.featureGroup(markersRef.current);
-      mapInstanceRef.current.fitBounds(group.getBounds().pad(0.1));
+      const bounds = group.getBounds();
+      
+      // Validate bounds before calling fitBounds
+      if (bounds && bounds.isValid && bounds.isValid()) {
+        try {
+          mapInstanceRef.current.fitBounds(bounds.pad(0.1));
+        } catch (error) {
+          console.warn('Error fitting bounds:', error);
+          // Fallback to default view
+          mapInstanceRef.current.setView([-3.9778, 122.5194], 12);
+        }
+      } else {
+        console.warn('Invalid bounds, using default view');
+        // Fallback to default view
+        mapInstanceRef.current.setView([-3.9778, 122.5194], 12);
+      }
     }
   };
 

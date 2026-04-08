@@ -11,7 +11,7 @@ export async function GET() {
     // Get active facilities (with optimal status)
     const activeFacilitiesQuery = `
       SELECT COUNT(*) as total FROM pengelolaan_air_limbah 
-      WHERE kondisi_status_operasional LIKE '%Optimal%'
+      WHERE kondisi_status_operasional::text LIKE '%Optimal%'
     `;
     const activeFacilitiesResult = await executeQuery(activeFacilitiesQuery) as any[];
     const activeFacilities = activeFacilitiesResult[0].total;

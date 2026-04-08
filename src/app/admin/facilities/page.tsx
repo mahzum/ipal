@@ -71,20 +71,20 @@ export default function FacilitiesPage() {
   };
 
   return (
-    <div>
+    <div className="bg-gray-50 min-h-full">
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-title-md2 font-semibold text-black dark:text-white">
+          <h2 className="text-title-md2 font-semibold text-gray-900">
             Data Pengelolaan Air Limbah
           </h2>
-          <p className="text-regular text-body dark:text-bodydark">
+          <p className="text-regular text-gray-600">
             Kelola data fasilitas IPALD (Instalasi Pengolahan Air Limbah Domestik)
           </p>
         </div>
         <div className="flex flex-col gap-4 2xsm:flex-row 2xsm:gap-7">
           <Link
             href="/admin/facilities/create"
-            className="inline-flex items-center justify-center rounded-md bg-primary py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
+            className="inline-flex items-center justify-center rounded-md bg-blue-600 py-4 px-10 text-center font-medium text-white hover:bg-blue-700 lg:px-8 xl:px-10"
           >
             <Plus className="h-4 w-4 mr-2" />
             Tambah Fasilitas
@@ -106,13 +106,13 @@ export default function FacilitiesPage() {
             }}
           />
           <span className="absolute left-4 top-4">
-            <Search className="h-4 w-4 text-body" />
+            <Search className="h-4 w-4 text-gray-400" />
           </span>
         </div>
       </div>
 
       {/* Table */}
-      <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      <div className="rounded-sm border border-slate-200 bg-white shadow-default">
         {loading ? (
           <div className="flex items-center justify-center h-64">
             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
@@ -121,26 +121,26 @@ export default function FacilitiesPage() {
         <div className="max-w-full overflow-x-auto">
           <table className="w-full table-auto">
             <thead>
-              <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
+              <tr className="bg-slate-50 text-left">
+                <th className="min-w-[220px] py-4 px-4 font-medium text-gray-900 xl:pl-11">
                   Nama Fasilitas
                 </th>
-                <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+                <th className="min-w-[150px] py-4 px-4 font-medium text-gray-900">
                   Kelurahan/Desa
                 </th>
-                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                <th className="min-w-[120px] py-4 px-4 font-medium text-gray-900">
                   Kapasitas
                 </th>
-                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                <th className="min-w-[120px] py-4 px-4 font-medium text-gray-900">
                   Status Operasional
                 </th>
-                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                <th className="min-w-[120px] py-4 px-4 font-medium text-gray-900">
                   Pengecekan Effluent
                 </th>
-                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                <th className="min-w-[120px] py-4 px-4 font-medium text-gray-900">
                   Lembaga Pengelola
                 </th>
-                <th className="py-4 px-4 font-medium text-black dark:text-white">
+                <th className="py-4 px-4 font-medium text-gray-900">
                   Aksi
                 </th>
               </tr>
@@ -148,8 +148,8 @@ export default function FacilitiesPage() {
             <tbody>
               {facilities.map((facility, key) => (
                 <tr key={facility.id}>
-                  <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
-                    <h5 className="font-medium text-black dark:text-white">
+                  <td className="border-b border-slate-200 py-5 px-4 pl-9 xl:pl-11">
+                    <h5 className="font-medium text-gray-900">
                       {facility.nama}
                     </h5>
                     {facility.latitude && facility.longitude && (
@@ -159,20 +159,20 @@ export default function FacilitiesPage() {
                       </p>
                     )}
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-white">
+                  <td className="border-b border-slate-200 py-5 px-4">
+                    <p className="text-gray-900">
                       {facility.kelurahan_desa}
                     </p>
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-white">
+                  <td className="border-b border-slate-200 py-5 px-4">
+                    <p className="text-gray-900">
                       Desain: {facility.kapasitas_desain} SR
                     </p>
                     <p className="text-sm text-meta-3">
                       Terpasang: {facility.kapasitas_terpasang} SR
                     </p>
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <td className="border-b border-slate-200 py-5 px-4">
                     <p
                       className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${
                         facility.kondisi_status_operasional.includes('Optimal')
@@ -183,7 +183,7 @@ export default function FacilitiesPage() {
                       {facility.kondisi_status_operasional}
                     </p>
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <td className="border-b border-slate-200 py-5 px-4">
                     <p
                       className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${
                         facility.pengecekan_effluent === 'Sudah dilakukan'
@@ -196,12 +196,12 @@ export default function FacilitiesPage() {
                       {facility.pengecekan_effluent}
                     </p>
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-white">
+                  <td className="border-b border-slate-200 py-5 px-4">
+                    <p className="text-gray-900">
                       {facility.lembaga_pengelola}
                     </p>
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <td className="border-b border-slate-200 py-5 px-4">
                     <div className="flex items-center space-x-2">
                       <Link
                         href={`/admin/facilities/${facility.id}`}

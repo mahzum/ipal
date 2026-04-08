@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     let query = `
       SELECT id, username, email, full_name, role, is_active, last_login, created_at, updated_at 
       FROM users 
-      WHERE username LIKE $1 OR email LIKE $2 OR full_name LIKE $3
+      WHERE username::text LIKE $1 OR email::text LIKE $2 OR full_name::text LIKE $3
       ORDER BY created_at DESC
       LIMIT $4 OFFSET $5
     `;
@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     // Get total count for pagination
     const countQuery = `
       SELECT COUNT(*) as total FROM users 
-      WHERE username LIKE $1 OR email LIKE $2 OR full_name LIKE $3
+      WHERE username::text LIKE $1 OR email::text LIKE $2 OR full_name::text LIKE $3
     `;
     const countResult = await executeQuery(countQuery, [searchTerm, searchTerm, searchTerm]) as any[];
     const total = countResult[0].total;

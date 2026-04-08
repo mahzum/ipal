@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
 
     let query = `
       SELECT * FROM pengelolaan_air_limbah 
-      WHERE nama LIKE $1 OR kelurahan_desa LIKE $2 OR lembaga_pengelola LIKE $3
+      WHERE nama::text LIKE $1 OR kelurahan_desa::text LIKE $2 OR lembaga_pengelola::text LIKE $3
       ORDER BY created_at DESC
       LIMIT $4 OFFSET $5
     `;
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     // Get total count for pagination
     const countQuery = `
       SELECT COUNT(*) as total FROM pengelolaan_air_limbah 
-      WHERE nama LIKE $1 OR kelurahan_desa LIKE $2 OR lembaga_pengelola LIKE $3
+      WHERE nama::text LIKE $1 OR kelurahan_desa::text LIKE $2 OR lembaga_pengelola::text LIKE $3
     `;
     const countResult = await executeQuery(countQuery, [searchTerm, searchTerm, searchTerm]) as any[];
     const total = countResult[0].total;

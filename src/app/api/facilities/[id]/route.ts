@@ -8,7 +8,7 @@ export async function GET(
 ) {
   try {
     const id = params.id;
-    const query = 'SELECT * FROM pengelolaan_air_limbah WHERE id = ?';
+    const query = 'SELECT * FROM pengelolaan_air_limbah WHERE id = $1';
     const result = await executeQuery(query, [id]) as any[];
     
     if (result.length === 0) {
@@ -41,11 +41,11 @@ export async function PUT(
     
     const query = `
       UPDATE pengelolaan_air_limbah SET
-        nama = ?, kelurahan_desa = ?, kapasitas_desain = ?, kapasitas_terpasang = ?,
-        tahun_dibangun_rehabilitasi = ?, kondisi_status_operasional = ?,
-        lembaga_pengelola = ?, pengecekan_effluent = ?, latitude = ?, longitude = ?,
-        alamat_lengkap = ?, keterangan = ?, updated_at = CURRENT_TIMESTAMP
-      WHERE id = ?
+        nama = $1, kelurahan_desa = $2, kapasitas_desain = $3, kapasitas_terpasang = $4,
+        tahun_dibangun_rehabilitasi = $5, kondisi_status_operasional = $6,
+        lembaga_pengelola = $7, pengecekan_effluent = $8, latitude = $9, longitude = $10,
+        alamat_lengkap = $11, keterangan = $12, updated_at = CURRENT_TIMESTAMP
+      WHERE id = $13
     `;
 
     const values = [
@@ -64,9 +64,13 @@ export async function PUT(
       id
     ];
 
-    const result = await executeQuery(query, values) as any;
+    const result = await executeQuery(query, values) as any[];
     
-    if (result.affectedRows === 0) {
+    // For UPDATE operations, check if any rows were affected by running a SELECT
+    const checkQuery = 'SELECT id FROM pengelolaan_air_limbah WHERE id = $1';
+    const checkResult = await executeQuery(checkQuery, [id]) as any[];
+    
+    if (checkResult.length === 0) {
       return NextResponse.json(
         { success: false, message: 'Facility not found' },
         { status: 404 }
@@ -92,10 +96,14 @@ export async function DELETE(
 ) {
   try {
     const id = params.id;
-    const query = 'DELETE FROM pengelolaan_air_limbah WHERE id = ?';
-    const result = await executeQuery(query, [id]) as any;
+    const query = 'DELETE FROM pengelolaan_air_limbah WHERE id = $1';
+    const result = await executeQuery(query, [id]) as any[];
     
-    if (result.affectedRows === 0) {
+    // For DELETE operations, check if facility was deleted by trying to select it again
+    const checkQuery = 'SELECT id FROM pengelolaan_air_limbah WHERE id = $1';
+    const checkResult = await executeQuery(checkQuery, [id]) as any[];
+    
+    if (checkResult.length > 0) {
       return NextResponse.json(
         { success: false, message: 'Facility not found' },
         { status: 404 }
