@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
       WHERE nama::text LIKE $1 OR kelurahan_desa::text LIKE $2 OR lembaga_pengelola::text LIKE $3
     `;
     const countResult = await executeQuery(countQuery, [searchTerm, searchTerm, searchTerm]) as any[];
-    const total = countResult[0].total;
+    const total = countResult.length > 0 ? countResult[0].total : 0;
 
     return NextResponse.json({
       success: true,

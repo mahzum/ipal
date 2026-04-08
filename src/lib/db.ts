@@ -27,9 +27,9 @@ export function getConnection(): Pool {
 }
 
 export async function executeQuery(query: string, params: any[] = []) {
-  // Skip database operations during build time on Vercel
-  if (process.env.VERCEL && process.env.VERCEL_ENV !== 'development') {
-    console.warn('Database operations skipped during Vercel build process');
+  // Only skip database operations during actual build time (not runtime)
+  if (process.env.NEXT_PHASE === 'phase-production-build') {
+    console.warn('Database operations skipped during Next.js build phase');
     return [];
   }
 
@@ -50,9 +50,9 @@ export async function executeQuery(query: string, params: any[] = []) {
   } catch (error) {
     console.error('Database query error:', error);
     
-    // During Vercel build/preview, return empty result instead of throwing
-    if (process.env.VERCEL) {
-      console.warn('Database query failed on Vercel, returning empty result');
+    // Only during build phase, return empty result instead of throwing
+    if (process.env.NEXT_PHASE === 'phase-production-build') {
+      console.warn('Database query failed during build, returning empty result');
       return [];
     }
     
@@ -67,6 +67,12 @@ export async function executeQuery(query: string, params: any[] = []) {
 export async function executeQueryWithClient<T>(
   callback: (client: PoolClient) => Promise<T>
 ): Promise<T> {
+  // Only skip database operations during actual build time (not runtime)
+  if (process.env.NEXT_PHASE === 'phase-production-build') {
+    console.warn('Database operations skipped during Next.js build phase');
+    return null as T;
+  }
+
   const connection = getConnection();
   const client = await connection.connect();
   
