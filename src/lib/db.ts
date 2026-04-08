@@ -27,9 +27,16 @@ export function getConnection(): Pool {
 }
 
 export async function executeQuery(query: string, params: any[] = []) {
-  // Skip database operations during build time
-  if (process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL && !process.env.POSTGRES_URL) {
-    console.warn('Database connection skipped during build - no connection string available');
+  // Skip database operations during build time on Vercel
+  if (process.env.VERCEL && process.env.VERCEL_ENV !== 'development') {
+    console.warn('Database operations skipped during Vercel build process');
+    return [];
+  }
+
+  // Check if we have a valid connection string
+  const connectionString = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+  if (!connectionString) {
+    console.warn('No database connection string available');
     return [];
   }
 
@@ -42,11 +49,13 @@ export async function executeQuery(query: string, params: any[] = []) {
     return result.rows;
   } catch (error) {
     console.error('Database query error:', error);
-    // During build, return empty result instead of throwing
-    if (process.env.VERCEL_ENV === 'preview' || process.env.VERCEL_ENV === 'production') {
-      console.warn('Database query failed during build, returning empty result');
+    
+    // During Vercel build/preview, return empty result instead of throwing
+    if (process.env.VERCEL) {
+      console.warn('Database query failed on Vercel, returning empty result');
       return [];
     }
+    
     throw error;
   } finally {
     if (client) {
