@@ -252,9 +252,9 @@ SELECT
     COUNT(CASE WHEN kapasitas_terpasang > 0 THEN 1 END) as active_facilities,
     SUM(kapasitas_desain) as total_design_capacity,
     SUM(kapasitas_terpasang) as total_installed_capacity,
-    COUNT(CASE WHEN kondisi_status_operasional LIKE '%Optimal%' THEN 1 END) as optimal_facilities,
-    COUNT(CASE WHEN kondisi_status_operasional LIKE '%Tidak Optimal%' THEN 1 END) as non_optimal_facilities,
-    COUNT(CASE WHEN kondisi_status_operasional LIKE '%Rusak%' THEN 1 END) as damaged_facilities,
+    COUNT(CASE WHEN kondisi_status_operasional::text LIKE '%Optimal%' THEN 1 END) as optimal_facilities,
+    COUNT(CASE WHEN kondisi_status_operasional::text LIKE '%Tidak Optimal%' THEN 1 END) as non_optimal_facilities,
+    COUNT(CASE WHEN kondisi_status_operasional::text LIKE '%Rusak%' THEN 1 END) as damaged_facilities,
     COUNT(CASE WHEN pengecekan_effluent = 'Sudah dilakukan' THEN 1 END) as effluent_checked
 FROM pengelolaan_air_limbah;
 
